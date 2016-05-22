@@ -4,9 +4,9 @@
 angular.module('findyourhashtags', [
         'ui.router',
         'ngResource',
-        'wishlist.services',
-        'wishlist.directives',
-        'wishlist.controllers'
+        'findyourhashtags.services',
+        'findyourhashtags.directives',
+        'findyourhashtags.controllers'
     ])
 
     .constant("serverUrl", "localhost:8080")
