@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('wishlist.directives', []);
+angular.module('findyourhashtags.directives', []);

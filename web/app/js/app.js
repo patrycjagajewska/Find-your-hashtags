@@ -1,7 +1,7 @@
 'use strict';
 
 // main application module definition
-angular.module('wishlist', [
+angular.module('findyourhashtags', [
         'ui.router',
         'ngResource',
         'wishlist.services',
@@ -9,7 +9,7 @@ angular.module('wishlist', [
         'wishlist.controllers'
     ])
 
-    .constant("serverUrl", "http://192.168.50.123:8080")
+    .constant("serverUrl", "localhost:8080")
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -25,34 +25,15 @@ angular.module('wishlist', [
             .state('404', {
                 templateUrl: 'partials/404.html'
             })
-            .state('greeting', {
-                url: '/greeting',
-                templateUrl: 'partials/views/greeting.html',
-                controller: 'GreetingController',
-                service: 'GreetingService'
+            .state('main', {
+                url: '/',
+                templateUrl: 'partials/views/main.html',
+                //controller: 'GreetingController',
+                //service: 'GreetingService'
             })
             .state('login', {
                 url: '/login',
                 templateUrl: 'partials/views/login.html'
-            })
-            .state('register', {
-                url: '/register',
-                templateUrl: 'partials/views/register.html'
-            })
-            .state('navbar', {
-                templateUrl: 'partials/views/navbar.html'
-            })
-            .state('navbar.friends', {
-                url: '/friends',
-                templateUrl: 'partials/views/friends.html',
-                controller: 'FriendController',
-                service: 'UserService'
-            })
-            .state('navbar.gifts', {
-                url: '/gifts',
-                templateUrl: 'partials/views/gifts.html',
-                controller: 'GiftController',
-                service: 'UserService'
             });
 
     })
