@@ -1,15 +1,15 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
-  "license": "MIT",
-  "private": true,
+  "name": "find-your-hashtags",
+  "version": "0.0.1",
   "dependencies": {
-    "angular": "~1.4.0",
-    "angular-route": "~1.4.0",
-    "angular-loader": "~1.4.0",
-    "angular-mocks": "~1.4.0",
-    "html5-boilerplate": "~5.2.0"
-  }
+    "angular": "1.5.5",
+    "angular-resource": "1.5.5",
+    "angular-ui-router": "0.2.18",
+    "bootstrap": "3.3.6",
+    "jquery": "2.2.4",
+    "jquery-searchable": "1.1.0",
+    "jquery-ui": "1.11.4",
+    "Font-Awesome-Stylus": "4.6.2"
+  },
+  "analytics": false
 }
