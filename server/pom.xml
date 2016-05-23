@@ -8,5 +8,15 @@
     <artifactId>find-your-hashtags</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!-- http://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
