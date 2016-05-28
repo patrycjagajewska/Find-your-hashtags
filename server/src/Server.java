@@ -1,12 +1,16 @@
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Zuzia on 2016-05-24.
  */
 public class Server {
+    private static Long tweetID;
+    private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
+    private static List<Status> tweets;
+
     public static void main(String[] args) throws TwitterException {
 //        System.out.println("hello world");
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -20,11 +24,12 @@ public class Server {
         TwitterFactory tf = new TwitterFactory(cb.build());
         twitter4j.Twitter twitter = tf.getInstance();
 
-        String hashtag = "BABYMETAL";
-        Integer howMany = 5;
+        String hashtag = "#BABYMETAL";
+        Integer howMany = 10;
 
 //        displayTimelineTweets(twitter);
         searchForHashtag(twitter, hashtag, howMany);
+        markAsFavourite(twitter);
 
     }
 
@@ -37,21 +42,28 @@ public class Server {
 
             QueryResult result;
             Query query = new Query(hashtag);
-            String howManyString;
+            int i = 0;
             do{
                 result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
+                tweets = result.getTweets();
 
-                for (Status tweet : tweets) {
-                    System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText() + "\n");
-                    if(howMany != null){
-                        howMany--;
-                        System.out.println("howMany = " + howMany.toString());
-                        if(howMany == 0) break;
+                for(Status tweet : tweets){
+                    tweetsMap.put(tweet.getId(), tweet);
+//                    System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
+                }
+
+                for(Map.Entry entry : tweetsMap.entrySet()) {
+                    i++;
+                    Status tweet = (Status) entry.getValue();
+                    System.out.println(i);
+                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
+
+                    if (howMany != null) {
+                        if(i == howMany) break;
                     }
                 }
                 System.out.println("---------------end of while-------------");
-            } while(((query = result.nextQuery()) != null) && howMany != 0);
+            } while(((query = result.nextQuery()) != null) && i != howMany);
             System.exit(0);
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -69,6 +81,16 @@ public class Server {
 //        System.out.println("hi");
         for(Status tweet : tweets){
             System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
+            tweetID = tweet.getId();
+            System.out.println("ID: " + tweetID);
+        }
+    }
+
+    public static void markAsFavourite(twitter4j.Twitter twitter){
+        try {
+            twitter.createFavorite(tweetID);
+        } catch (TwitterException e) {
+            e.printStackTrace();
         }
     }
 }
