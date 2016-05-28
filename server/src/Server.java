@@ -7,7 +7,6 @@ import java.util.*;
  * Created by Zuzia on 2016-05-24.
  */
 public class Server {
-    private static Long tweetID;
     private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
     private static List<Status> tweets;
 
@@ -25,11 +24,10 @@ public class Server {
         twitter4j.Twitter twitter = tf.getInstance();
 
         String hashtag = "#BABYMETAL";
-        Integer howMany = 10;
+        Integer howMany = 5;
 
 //        displayTimelineTweets(twitter);
         searchForHashtag(twitter, hashtag, howMany);
-        markAsFavourite(twitter);
 
     }
 
@@ -49,14 +47,17 @@ public class Server {
 
                 for(Status tweet : tweets){
                     tweetsMap.put(tweet.getId(), tweet);
-//                    System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
                 }
 
                 for(Map.Entry entry : tweetsMap.entrySet()) {
                     i++;
                     Status tweet = (Status) entry.getValue();
+                    Long tweetID = (Long) entry.getKey();
                     System.out.println(i);
+                    System.out.println(tweetID);
                     System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
+
+                    markAsFavourite(twitter, tweetID);
 
                     if (howMany != null) {
                         if(i == howMany) break;
@@ -71,22 +72,18 @@ public class Server {
     }
 
     public static void displayTimelineTweets(twitter4j.Twitter twitter){
-        List<Status> tweets = null;
         try {
             tweets = twitter.getHomeTimeline();
+
+            for(Status tweet : tweets){
+                System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
+            }
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-
-//        System.out.println("hi");
-        for(Status tweet : tweets){
-            System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
-            tweetID = tweet.getId();
-            System.out.println("ID: " + tweetID);
-        }
     }
 
-    public static void markAsFavourite(twitter4j.Twitter twitter){
+    public static void markAsFavourite(twitter4j.Twitter twitter, Long tweetID){
         try {
             twitter.createFavorite(tweetID);
         } catch (TwitterException e) {
