@@ -1,12 +1,16 @@
+package pl.edu.agh.tai.server;
+
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * Created by Zuzia on 2016-05-24.
+ * Created by Zuzia on 2016-05-31.
  */
-public class Server {
+public class Application {
     private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
     private static List<Status> tweets;
 
@@ -90,4 +94,5 @@ public class Server {
             e.printStackTrace();
         }
     }
+
 }
