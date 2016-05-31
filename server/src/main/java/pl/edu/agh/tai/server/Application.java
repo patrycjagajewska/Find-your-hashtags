@@ -1,7 +1,6 @@
 package pl.edu.agh.tai.server;
 
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -16,15 +15,8 @@ public class Application {
 
     public static void main(String[] args) throws TwitterException {
 //        System.out.println("hello world");
-        ConfigurationBuilder cb = new ConfigurationBuilder();
 
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("w6XhZFUdC3YpEMsZJAX1iBzhn")
-                .setOAuthConsumerSecret("BJ4dntI5QqosOaQJRtFO9wqNjQz42UVlfg78d7kSwZjRyMHty7")
-                .setOAuthAccessToken("734321380800507904-hFH0rmOrtgnRk0dEThCTtqkjqx9L1PT")
-                .setOAuthAccessTokenSecret("bIuVPcTLeeFB7awg2S5IJFT8098iiz9957LDTzbQfjNHt");
-
-        TwitterFactory tf = new TwitterFactory(cb.build());
+        TwitterFactory tf = new TwitterFactory();
         twitter4j.Twitter twitter = tf.getInstance();
 
         String hashtag = "#BABYMETAL";
@@ -59,7 +51,7 @@ public class Application {
                     Long tweetID = (Long) entry.getKey();
                     System.out.println(i);
                     System.out.println(tweetID);
-                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
+//                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
 
                     markAsFavourite(twitter, tweetID);
 
