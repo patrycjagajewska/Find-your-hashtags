@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.server;
+package pl.edu.agh.tai.app;
 
 import twitter4j.*;
 
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Zuzia on 2016-05-31.
+ * Created by Zuzia on 2016-06-01.
  */
 public class Application {
     private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
