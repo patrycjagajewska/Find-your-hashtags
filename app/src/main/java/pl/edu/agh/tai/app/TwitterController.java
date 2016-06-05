@@ -13,8 +13,8 @@ import java.util.List;
 public class TwitterController {
 
     @ResponseBody
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "application/json")
-    public List<Status> getAllTweets(@PathVariable String username) {
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public List<Status> getAllTweets() {
         try {
             TwitterFactory factory = new TwitterFactory();
             Twitter twitter = factory.getInstance();
