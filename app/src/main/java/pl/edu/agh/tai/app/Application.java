@@ -1,5 +1,6 @@
 package pl.edu.agh.tai.app;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.*;
 
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.TreeMap;
 /**
  * Created by Zuzia on 2016-06-01.
  */
+
+@SpringBootApplication
 public class Application {
     private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
     private static List<Status> tweets;
