@@ -6,7 +6,8 @@ angular.module('findyourhashtags', [
         'ngResource',
         'findyourhashtags.services',
         'findyourhashtags.directives',
-        'findyourhashtags.controllers'
+        'findyourhashtags.controllers',
+        'restangular'
     ])
 
     .constant("serverUrl", "localhost:8080")
@@ -25,11 +26,11 @@ angular.module('findyourhashtags', [
             .state('404', {
                 templateUrl: 'partials/404.html'
             })
-            .state('main', {
+            .state('home', {
                 url: '/',
-                templateUrl: 'partials/views/main.html',
-                //controller: 'GreetingController',
-                //service: 'GreetingService'
+                templateUrl: 'partials/views/home.html',
+                controller: 'TwitterController',
+                service: 'TwitterService'
             })
             .state('login', {
                 url: '/login',

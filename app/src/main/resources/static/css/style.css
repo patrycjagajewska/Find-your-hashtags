@@ -363,6 +363,10 @@ body, html {
     border-color: rgb(0, 0, 0);
 }
 
+.img-circle {
+    width: 10%;
+}
+
 /*navbar*/
 
 #logo-navbar {

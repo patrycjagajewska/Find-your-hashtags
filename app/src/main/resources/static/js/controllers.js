@@ -27,10 +27,11 @@ angular.module('findyourhashtags.controllers', [])
         };
     })
 
-    .controller('HashtagController', function ($scope, $state, HashtagService) {
-        var tweets = HashtagService.getTweets();
+    .controller('TwitterController', function ($scope, $state, TwitterService) {
+        TwitterService.getTweets().then(function(resp){
+            $scope.tweets = resp;
+        });
 
-        $scope.tweets = tweets;
     });
 
 

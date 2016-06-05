@@ -1,0 +1,83 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a><img src="assets/hashtag.png" id="logo-navbar"></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ui-sref="login" id="logout">Signed in as Mark Otto</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-centered">
+            <h2>Find your hashtags!</h2>
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <span class="input-group-addon">#</span>
+                    <input type="text" class="form-control input-lg" placeholder="Put your hashtag here.."/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+            <div class="panel panel-default panel-google-plus" ng-repeat="tweet in tweets">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </span>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                    </ul>
+                </div>
+                <div class="panel-heading">
+                    <img class="img-circle pull-left"
+                         ng-src={{tweet.user.originalProfileImageURLHttps}}/>
+                    <h3>{{tweet.user.name}}</h3>
+                    <h5><span>Shared publicly</span> - <span>Jun 27, 2014</span></h5>
+                </div>
+                <div class="panel-body">
+                    <p>{{tweet.text}}</p>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-heart-empty"></span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-retweet"></span>
+                    </button>
+                    <div class="input-placeholder">Add a comment...</div>
+                </div>
+                <div class="panel-google-plus-comment">
+                    <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
+                         alt="User Image"/>
+                    <div class="panel-google-plus-textarea">
+                        <textarea rows="4"></textarea>
+                        <button type="submit" class="btn btn-success disabled">Post comment</button>
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
