@@ -1,5 +1,6 @@
 package pl.edu.agh.tai.app;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.*;
 
@@ -16,19 +17,23 @@ public class Application {
     private static Map<Long, Status> tweetsMap = new TreeMap<Long, Status>();
     private static List<Status> tweets;
 
-    public static void main(String[] args) throws TwitterException {
-//        System.out.println("hello world");
-
-        TwitterFactory tf = new TwitterFactory();
-        twitter4j.Twitter twitter = tf.getInstance();
-
-        String hashtag = "#BABYMETAL";
-        Integer howMany = 5;
-
-//        displayTimelineTweets(twitter);
-        searchForHashtag(twitter, hashtag, howMany);
-
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
+
+//    public static void main(String[] args) throws TwitterException {
+////        System.out.println("hello world");
+//
+//        TwitterFactory tf = new TwitterFactory();
+//        twitter4j.Twitter twitter = tf.getInstance();
+//
+//        String hashtag = "#BABYMETAL";
+//        Integer howMany = 5;
+//
+////        displayTimelineTweets(twitter);
+//        searchForHashtag(twitter, hashtag, howMany);
+//
+//    }
 
     public static void searchForHashtag(twitter4j.Twitter twitter, String hashtag, Integer howMany){
         try {
