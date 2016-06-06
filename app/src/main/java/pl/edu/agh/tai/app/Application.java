@@ -61,8 +61,6 @@ public class Application {
                     System.out.println(tweetID);
 //                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
 
-                    markAsFavourite(twitter, tweetID);
-
                     if (howMany != null) {
                         if(i == howMany) break;
                     }
@@ -74,25 +72,4 @@ public class Application {
             e.printStackTrace();
         }
     }
-
-    public static void displayTimelineTweets(twitter4j.Twitter twitter){
-        try {
-            tweets = twitter.getHomeTimeline();
-
-            for(Status tweet : tweets){
-                System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
-            }
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void markAsFavourite(twitter4j.Twitter twitter, Long tweetID){
-        try {
-            twitter.createFavorite(tweetID);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
