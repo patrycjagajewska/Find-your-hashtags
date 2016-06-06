@@ -72,16 +72,4 @@ public class Application {
             e.printStackTrace();
         }
     }
-
-    public static void displayTimelineTweets(twitter4j.Twitter twitter){
-        try {
-            tweets = twitter.getHomeTimeline();
-
-            for(Status tweet : tweets){
-                System.out.println(tweet.getUser().getName() + " ----- " + tweet.getText());
-            }
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
 }

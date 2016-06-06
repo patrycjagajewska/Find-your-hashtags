@@ -11,18 +11,15 @@ import java.util.Map;
 @RequestMapping("/tweets")
 public class TwitterController {
 
-    TwitterFactory factory = new TwitterFactory();
-    Twitter twitter = factory.getInstance();
+    private TwitterFactory factory = new TwitterFactory();
+    private Twitter twitter = factory.getInstance();
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<Status> getAllTweets() {
 
         try {
-            TwitterFactory factory = new TwitterFactory();
-            Twitter twitter = factory.getInstance();
             return twitter.getHomeTimeline();
-
         } catch (TwitterException e) {
             e.printStackTrace();
             throw new TweetException(e);
@@ -57,17 +54,32 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/favourite/{tweetID}", method = RequestMethod.GET, produces = "application/json")
-    public List<Status> markAsFavourite(@PathVariable Long tweetID){
+    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.GET, produces = "application/json")
+    public List<Status> markAsFavourite(@PathVariable Long tweetId){
 
         List<Status> favourites = null;
 
         try {
-            twitter.createFavorite(tweetID);
+            twitter.createFavorite(tweetId);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
 
         return favourites; //w sumie nie wiem czy ta metoda powinna coś zwracać
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/retweet/{tweetID}", method = RequestMethod.GET, produces = "application/json")
+    public List<Status> retweet(@PathVariable Long tweetId){
+
+        List<Status> retweetedTweets = null;
+
+        try {
+            twitter.retweetStatus(tweetId);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        return retweetedTweets;
     }
 }
