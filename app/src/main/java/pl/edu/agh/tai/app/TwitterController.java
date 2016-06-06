@@ -14,6 +14,11 @@ public class TwitterController {
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
 
+    List<Status> favourites = null;
+    List<Status> retweetedTweets = null;
+    List<Status> comments = null;
+    Status r;
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<Status> getAllTweets() {
@@ -55,12 +60,25 @@ public class TwitterController {
 
     @ResponseBody
     @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> markAsFavourite(@PathVariable Long tweetId){
-
-        List<Status> favourites = null;
+    public List<Status> favourite(@PathVariable Long tweetId){
 
         try {
-            twitter.createFavorite(tweetId);
+            r = twitter.createFavorite(tweetId);
+            favourites.add(r);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        return favourites;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> unfavourite(@PathVariable Long tweetId){
+
+        try {
+            r = twitter.destroyFavorite(tweetId);
+            favourites.remove(r);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -72,14 +90,35 @@ public class TwitterController {
     @RequestMapping(value = "/retweet/{tweetId}", method = RequestMethod.POST, produces = "application/json")
     public List<Status> retweet(@PathVariable Long tweetId){
 
-        List<Status> retweetedTweets = null;
-
         try {
-            twitter.retweetStatus(tweetId);
+            r = twitter.retweetStatus(tweetId);
+            retweetedTweets.add(r);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
 
         return retweetedTweets;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{tweetId}", method = RequestMethod.GET, produces = "application/json")
+    public List<Status> getComments(){
+
+
+
+        return comments;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{tweetId}", method = RequestMethod.PUT, produces = "application/json")
+    public void comment(@PathVariable Long tweetId, String text){
+
+        try {
+            StatusUpdate statusUpdate = new StatusUpdate(text);
+            statusUpdate.inReplyToStatusId(tweetId);
+            twitter.updateStatus(statusUpdate);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
     }
 }
