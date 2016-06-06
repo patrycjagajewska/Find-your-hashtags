@@ -61,8 +61,6 @@ public class Application {
                     System.out.println(tweetID);
 //                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
 
-                    markAsFavourite(twitter, tweetID);
-
                     if (howMany != null) {
                         if(i == howMany) break;
                     }
@@ -86,13 +84,4 @@ public class Application {
             e.printStackTrace();
         }
     }
-
-    public static void markAsFavourite(twitter4j.Twitter twitter, Long tweetID){
-        try {
-            twitter.createFavorite(tweetID);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

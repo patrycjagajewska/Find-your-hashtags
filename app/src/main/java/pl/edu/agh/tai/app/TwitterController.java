@@ -11,6 +11,9 @@ import java.util.Map;
 @RequestMapping("/tweets")
 public class TwitterController {
 
+    TwitterFactory factory = new TwitterFactory();
+    Twitter twitter = factory.getInstance();
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<Status> getAllTweets() {
@@ -30,10 +33,8 @@ public class TwitterController {
     @RequestMapping(value = "/{hashtag}", method = RequestMethod.GET, produces = "application/json")
     public List<Status> searchForHashtag(@PathVariable String hashtag){
 
-        TwitterFactory factory = new TwitterFactory();
-        Twitter twitter = factory.getInstance();
-
         List<Status> tweets = null;
+//        int i = 0;
 
         try {
             if(!hashtag.startsWith("#")){
@@ -42,7 +43,7 @@ public class TwitterController {
 
             QueryResult result;
             Query query = new Query(hashtag);
-            int i = 0;
+
             do{
                 result = twitter.search(query);
                 tweets = result.getTweets();
@@ -53,5 +54,20 @@ public class TwitterController {
         }
 
         return tweets;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/favourite/{tweetID}", method = RequestMethod.GET, produces = "application/json")
+    public List<Status> markAsFavourite(@PathVariable Long tweetID){
+
+        List<Status> favourites = null;
+
+        try {
+            twitter.createFavorite(tweetID);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        return favourites; //w sumie nie wiem czy ta metoda powinna coś zwracać
     }
 }
