@@ -13,13 +13,11 @@ angular.module('findyourhashtags.services', [])
         //        console.log(resp);
         //    });
         //};
-        //
-        //service.searchHashtag = function(hashtag) {
-        //    Restangular.all('tweets').one(hashtag).get().then(function(resp){
-        //        console.log(resp);
-        //    });
-        //};
-        //
+
+        service.searchForHashtag = function(hashtag) {
+             return Restangular.one(hashtag).all('tweets').getList();
+        };
+
         //service.retweet = function(){
         //  Restangular.one(tweetId).get().then(function(data){
         //

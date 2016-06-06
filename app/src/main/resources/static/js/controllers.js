@@ -28,11 +28,15 @@ angular.module('findyourhashtags.controllers', [])
     })
 
     .controller('TwitterController', function ($scope, $state, TwitterService) {
+
         TwitterService.getTweets().then(function(resp){
             $scope.tweets = resp;
         });
 
-    });
+        TwitterService.searchForHashtag(hashtag).then(function(resp){
+           $scope.tweets = resp;
+        });
 
+    });
 
 
