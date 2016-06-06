@@ -54,7 +54,7 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
     public List<Status> markAsFavourite(@PathVariable Long tweetId){
 
         List<Status> favourites = null;
@@ -65,11 +65,11 @@ public class TwitterController {
             e.printStackTrace();
         }
 
-        return favourites; //w sumie nie wiem czy ta metoda powinna coś zwracać
+        return favourites;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/retweet/{tweetID}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/retweet/{tweetId}", method = RequestMethod.POST, produces = "application/json")
     public List<Status> retweet(@PathVariable Long tweetId){
 
         List<Status> retweetedTweets = null;
