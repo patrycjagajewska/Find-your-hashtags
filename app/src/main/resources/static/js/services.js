@@ -15,7 +15,7 @@ angular.module('findyourhashtags.services', [])
         //};
 
         service.searchForHashtag = function(hashtag) {
-             return Restangular.one(hashtag).all('tweets').getList();
+             return Restangular.all('tweets').all(hashtag).getList();
         };
 
         //service.retweet = function(){

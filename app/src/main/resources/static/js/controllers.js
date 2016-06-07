@@ -33,9 +33,11 @@ angular.module('findyourhashtags.controllers', [])
             $scope.tweets = resp;
         });
 
-        TwitterService.searchForHashtag(hashtag).then(function(resp){
-           $scope.tweets = resp;
-        });
+        $scope.searchForHashtag = function(hashtag) {
+            TwitterService.searchForHashtag(hashtag).then(function(resp){
+                $scope.tweets = resp;
+            });
+        }
 
     });
 
