@@ -73,7 +73,7 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/unfavourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
     public List<Status> unfavourite(@PathVariable Long tweetId){
 
         try {
