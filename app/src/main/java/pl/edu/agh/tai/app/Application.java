@@ -2,6 +2,7 @@ package pl.edu.agh.tai.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 import twitter4j.*;
 
 import java.util.List;
