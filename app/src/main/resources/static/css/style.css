@@ -182,59 +182,6 @@ body, html {
     border-radius: 2px;
 }
 
-/*.panel-google-plus > .panel-google-plus-tags {*/
-    /*position: absolute;*/
-    /*top: 35px;*/
-    /*right: -3px;*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul {*/
-    /*list-style: none;*/
-    /*padding: 0px;*/
-    /*margin: 0px;*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul:hover {*/
-    /*box-shadow: 0px 0px 3px rgb(0, 0, 0);*/
-    /*box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul > li {*/
-    /*display: block;*/
-    /*right: 0px;*/
-    /*width: 0px;*/
-    /*padding: 5px 0px 5px 0px;*/
-    /*background-color: rgb(245, 245, 245);*/
-    /*font-size: 12px;*/
-    /*overflow: hidden;*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul > li::after {*/
-    /*content: "";*/
-    /*position: absolute;*/
-    /*top: 0px;*/
-    /*right: 0px;*/
-    /*height: 100%;*/
-    /*border-right: 3px solid rgb(66, 127, 237);*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul:hover > li,*/
-/*.panel-google-plus > .panel-google-plus-tags > ul > li:first-child {*/
-    /*padding: 5px 15px 5px 10px;*/
-    /*width: auto;*/
-    /*cursor: pointer;*/
-    /*margin-left: auto;*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul:hover > li {*/
-    /*background-color: rgb(255, 255, 255);*/
-/*}*/
-
-/*.panel-google-plus > .panel-google-plus-tags > ul > li:hover {*/
-    /*background-color: rgb(66, 127, 237);*/
-    /*color: rgb(255, 255, 255);*/
-/*}*/
-
 .panel-google-plus > .panel-heading,
 .panel-google-plus > .panel-footer {
     background-color: rgb(255, 255, 255);
@@ -282,6 +229,16 @@ body, html {
     font-size: 14px;
     font-weight: 700;
     min-height: 54px;
+}
+
+.btn-success,
+.btn-success:active {
+    background-color: #5ea9dd;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #5e9dd1;
 }
 
 .panel-google-plus > .panel-footer > .btn {
