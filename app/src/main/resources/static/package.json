@@ -11,5 +11,5 @@
   "scripts": {
     "postinstall": "bower install"
   },
-  "licence": "UNLICENSED"
+  "license": "UNLICENSED"
 }
