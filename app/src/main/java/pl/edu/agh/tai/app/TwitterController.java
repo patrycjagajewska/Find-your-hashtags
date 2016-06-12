@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import twitter4j.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/tweets")
@@ -17,7 +16,7 @@ public class TwitterController {
     List<Status> favourites = null;
     List<Status> retweetedTweets = null;
     List<Status> comments = null;
-    Status r;
+    Status status = null;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
@@ -36,7 +35,6 @@ public class TwitterController {
     public List<Status> searchForHashtag(@PathVariable String hashtag){
 
         List<Status> tweets = null;
-//        int i = 0;
 
         try {
             if(!hashtag.startsWith("#")){
@@ -59,12 +57,12 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/favourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> favourite(@PathVariable Long tweetId){
+    @RequestMapping(value = "/favourite", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> favourite(Long tweetId){
 
         try {
-            r = twitter.createFavorite(tweetId);
-            favourites.add(r);
+            status = twitter.createFavorite(tweetId);
+            favourites.add(status);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -73,12 +71,12 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/unfavourite/{tweetId}", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> unfavourite(@PathVariable Long tweetId){
+    @RequestMapping(value = "/unfavourite", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> unfavourite(Long tweetId){
 
         try {
-            r = twitter.destroyFavorite(tweetId);
-            favourites.remove(r);
+            status = twitter.destroyFavorite(tweetId);
+            favourites.remove(status);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -87,12 +85,12 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/retweet/{tweetId}", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> retweet(@PathVariable Long tweetId){
+    @RequestMapping(value = "/retweet", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> retweet(Long tweetId){
 
         try {
-            r = twitter.retweetStatus(tweetId);
-            retweetedTweets.add(r);
+            status = twitter.retweetStatus(tweetId);
+            retweetedTweets.add(status);
         } catch (TwitterException e) {
             e.printStackTrace();
         }

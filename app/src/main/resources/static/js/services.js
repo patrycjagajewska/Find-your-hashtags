@@ -8,7 +8,7 @@ angular.module('findyourhashtags.services', [])
             return Restangular.all('tweets').getList();
         };
 
-        //service.getTweet = function(tweetId){
+        //service.getTweetId = function(tweetId){
         //    Restangular.all('tweets').one(tweetId).get().then(function(resp){
         //        console.log(resp);
         //    });
@@ -18,35 +18,26 @@ angular.module('findyourhashtags.services', [])
              return Restangular.all('tweets').all(hashtag).getList();
         };
 
-        //service.retweet = function(){
-        //  Restangular.one(tweetId).get().then(function(data){
-        //
-        //    });
-        //};
+        service.favourite = function(tweetId) {
+            return Restangular.all('tweets').customPOST({}, 'favourite', {tweetId: tweetId}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+        };
 
-        //service.getTweets() = function() {
-        //    return $resource(serverUrl + "/tweets").query();
-        //};
-        //
-        //service.searchHashtag = function(hashtag) {
-        //    return $resource(serverUrl + "/tweets/" + hashtag).get();
-        //};
-        //
-        //service.retweet = function(tweetId) {
-        //    return $resource(serverUrl + "/tweets/retweet/" + tweetId).get();
-        //};
-        //
-        //service.favourite = function(tweetId) {
-        //    return $resource(serverUrl + "/tweets/favourite/" + tweetId).get();
-        //};
-        //
-        //service.getComments = function(tweetId) {
-        //    return $resource(serverUrl + "/tweets/comments/" + tweetId).get();
-        //};
-        //
-        //service.comment = function(tweetId) {
-        //    return $resource(serverUrl + "/tweets/comment/" + tweetId).get();
-        //};
+        service.unfavourite = function(tweetId) {
+            return Restangular.all('tweets').customPOST({}, 'unfavourite', {tweetId: tweetId}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+        };
+
+        service.retweet = function(tweetId) {
+            return Restangular.all('tweets').customPOST({}, 'retweet', {tweetId: tweetId}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+        };
 
         return service;
     });

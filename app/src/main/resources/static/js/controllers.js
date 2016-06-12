@@ -37,7 +37,25 @@ angular.module('findyourhashtags.controllers', [])
             TwitterService.searchForHashtag(hashtag).then(function(resp){
                 $scope.tweets = resp;
             });
-        }
+        };
+
+        $scope.favourite = function(tweetId) {
+            TwitterService.favourite(tweetId).then(function(resp){
+                console.log(tweetId);
+            });
+        };
+
+        $scope.unfavourite = function(tweetId) {
+            TwitterService.unfavourite(tweetId).then(function(resp){
+                console.log(tweetId);
+            });
+        };
+
+        $scope.retweet = function(tweetId) {
+            TwitterService.retweet(tweetId).then(function(resp){
+                console.log(tweetId);
+            });
+        };
 
     });
 
