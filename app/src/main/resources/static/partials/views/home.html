@@ -52,26 +52,26 @@
                     <img class="img-circle pull-left"
                          ng-src={{tweet.user.originalProfileImageURLHttps}}/>
                     <h3>{{tweet.user.name}}</h3>
-                    <h5><span>Shared publicly</span> - <span>Jun 27, 2014</span></h5>
+                    <h5><span>{{tweet.user.description}}</span></h5>
                 </div>
                 <div class="panel-body">
                     <p>{{tweet.text}}</p>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-default" ng-click="favourite(tweet.id)">
                         <span class="glyphicon glyphicon-heart-empty"></span>
                     </button>
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-default" ng-click="retweet(tweet.id)">
                         <span class="glyphicon glyphicon-retweet"></span>
                     </button>
-                    <div class="input-placeholder">Add a comment...</div>
+                    <div class="input-placeholder" ng-click="toggleComment()">Add a comment...</div>
                 </div>
                 <div class="panel-google-plus-comment">
                     <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
                          alt="User Image"/>
                     <div class="panel-google-plus-textarea">
                         <textarea rows="4"></textarea>
-                        <button type="submit" class="btn btn-success disabled">Post comment</button>
+                        <button type="submit" class="btn btn-success">Post comment</button>
                         <button type="reset" class="btn btn-default">Cancel</button>
                     </div>
                     <div class="clearfix"></div>

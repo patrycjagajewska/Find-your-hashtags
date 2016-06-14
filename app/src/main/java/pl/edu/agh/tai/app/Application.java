@@ -22,20 +22,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-//    public static void main(String[] args) throws TwitterException {
-////        System.out.println("hello world");
-//
-//        TwitterFactory tf = new TwitterFactory();
-//        twitter4j.Twitter twitter = tf.getInstance();
-//
-//        String hashtag = "#BABYMETAL";
-//        Integer howMany = 5;
-//
-////        displayTimelineTweets(twitter);
-//        searchForHashtag(twitter, hashtag, howMany);
-//
-//    }
-
     public static void searchForHashtag(twitter4j.Twitter twitter, String hashtag, Integer howMany){
         try {
             if(!hashtag.startsWith("#")){
