@@ -8,12 +8,6 @@ angular.module('findyourhashtags.services', [])
             return Restangular.all('tweets').getList();
         };
 
-        //service.getTweetId = function(tweetId){
-        //    Restangular.all('tweets').one(tweetId).get().then(function(resp){
-        //        console.log(resp);
-        //    });
-        //};
-
         service.searchForHashtag = function(hashtag) {
              return Restangular.all('tweets').all(hashtag).getList();
         };
