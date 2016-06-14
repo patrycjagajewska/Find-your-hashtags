@@ -30,30 +30,33 @@ angular.module('findyourhashtags.controllers', [])
     .controller('TwitterController', function ($scope, $state, TwitterService) {
 
         TwitterService.getTweets().then(function(resp){
-            $scope.tweets = resp;
+            $scope.statuses = resp;
         });
 
         $scope.searchForHashtag = function(hashtag) {
             TwitterService.searchForHashtag(hashtag).then(function(resp){
-                $scope.tweets = resp;
+                $scope.statuses = resp;
             });
         };
 
-        $scope.favourite = function(tweetId) {
-            TwitterService.favourite(tweetId).then(function(resp){
-                console.log(tweetId);
+        $scope.favourite = function(status) {
+
+            TwitterService.favourite(status.id).then(function(resp){
+                console.log(status.id);
             });
         };
 
-        $scope.unfavourite = function(tweetId) {
-            TwitterService.unfavourite(tweetId).then(function(resp){
-                console.log(tweetId);
+        $scope.unfavourite = function(status) {
+
+            TwitterService.unfavourite(status.id).then(function(resp){
+                console.log(status.id);
             });
         };
 
-        $scope.retweet = function(tweetId) {
-            TwitterService.retweet(tweetId).then(function(resp){
-                console.log(tweetId);
+        $scope.retweet = function(status) {
+
+            TwitterService.retweet(status.id).then(function(resp){
+                console.log(status.id);
             });
         };
 
