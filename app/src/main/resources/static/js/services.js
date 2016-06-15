@@ -33,5 +33,12 @@ angular.module('findyourhashtags.services', [])
             });
         };
 
+        service.reply = function(tweetId, screenName, statusText) {
+            return Restangular.all('tweets').one('comment').put({tweetId: tweetId, screenName: screenName, text: statusText}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+        };
+
         return service;
     });
