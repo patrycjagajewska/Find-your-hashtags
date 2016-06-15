@@ -58,21 +58,19 @@
                     <p>{{status.tweet.text}}</p>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-default" ng-click="favourite(status)">
-                        <span class="glyphicon glyphicon-heart-empty"></span>
+                    <button type="button" class="btn btn-default" ng-click="favourite(status)" ng-class="status.favourited ? 'glyphicon glyphicon-heart' : 'glyphicon glyphicon-heart-empty'">
                     </button>
-                    <button type="button" class="btn btn-default" ng-click="retweet(status)">
-                        <span class="glyphicon glyphicon-retweet"></span>
+                    <button type="button" class="btn btn-default" ng-click="retweet(status)" ng-class="status.retweeted ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-retweet'">
                     </button>
-                    <div class="input-placeholder" ng-click="toggleComment()">Add a comment...</div>
+                    <div class="input-placeholder" ng-click="showComment()">Add a comment...</div>
                 </div>
                 <div class="panel-google-plus-comment">
                     <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
                          alt="User Image"/>
                     <div class="panel-google-plus-textarea">
                         <textarea rows="4" ng-model="statusText"></textarea>
-                        <button type="submit" class="btn btn-success" ng-click="reply(status, statusText)">Post comment</button>
-                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-success" ng-click="reply(status, statusText); hideComment()">Post comment</button>
+                        <button type="reset" class="btn btn-default" ng-click="hideComment()">Cancel</button>
                     </div>
                     <div class="clearfix"></div>
                 </div>

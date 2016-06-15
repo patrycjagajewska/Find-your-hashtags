@@ -19,7 +19,6 @@ public class TwitterController {
     List<TweetStatus> tweetStatuses = new ArrayList<>();
     List<Status> favourites = new ArrayList<>();
     List<Status> retweetedTweets = new ArrayList<>();
-    List<Status> comments = new ArrayList<>();
 
     Status status;
 
@@ -107,6 +106,26 @@ public class TwitterController {
 
         return retweetedTweets;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> undoRetweet(Long tweetId){
+
+        try {
+            List<Status> retweets = twitter.getRetweets(tweetId);
+            for (Status retweet : retweets) {
+                if(retweet.getRetweetedStatus().getUser().getScreenName().equals(twitter.getScreenName()))
+                    twitter.destroyStatus(retweet.getId());
+                    retweetedTweets.remove(retweet);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return retweetedTweets;
+    }
+
+
+
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.PUT, produces = "application/json")

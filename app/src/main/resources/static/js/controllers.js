@@ -31,6 +31,10 @@ angular.module('findyourhashtags.controllers', [])
 
         TwitterService.getTweets().then(function(resp){
             $scope.statuses = resp;
+            for(var i = 0; i < $scope.statuses.length; i++){
+                $scope.statuses[i].favourited = $scope.statuses[i].tweet.favorited;
+                $scope.statuses[i].retweeted = $scope.statuses[i].tweet.retweeted;
+            }
         });
 
         $scope.searchForHashtag = function(hashtag) {
@@ -41,9 +45,18 @@ angular.module('findyourhashtags.controllers', [])
 
         $scope.favourite = function(status) {
 
-            TwitterService.favourite(status.id).then(function(resp){
-                console.log("Tweet " + status.id + " marked as favourite");
-            });
+            if(!status.favourited){
+                TwitterService.favourite(status.id).then(function(resp){
+                    console.log("Tweet " + status.id + " marked as favourite");
+                });
+            } else {
+                TwitterService.unfavourite(status.id).then(function(resp){
+                    console.log("Tweet " + status.id + " unmarked favourite");
+                });
+            }
+
+            status.favourited = !status.favourited;
+            console.log(status.favourited);
         };
 
         $scope.unfavourite = function(status) {
@@ -55,21 +68,38 @@ angular.module('findyourhashtags.controllers', [])
 
         $scope.retweet = function(status) {
 
-            TwitterService.retweet(status.id).then(function(resp){
-                console.log("Tweet " + status.id + " retweeted");
+            if(!status.retweeted) {
+                TwitterService.retweet(status.id).then(function (resp) {
+                    console.log("Tweet " + status.id + " retweeted");
+                });
+            } else {
+                TwitterService.undoRetweet(status.id).then(function(resp){
+                    console.log("Tweet " + status.id + " removed from retweeted");
+                });
+            }
+
+            status.retweeted = !status.retweeted;
+            console.log(status.retweeted);
+        };
+
+        $scope.undoRetweet = function(status) {
+
+            TwitterService.undoRetweet(status.id).then(function(resp){
+                console.log("Tweet " + status.id + " removed from retweeted");
             });
         };
 
         $scope.reply = function(status, statusText) {
+
             TwitterService.reply(status.id, status.tweet.user.screenName, statusText).then(function(resp){
                 console.log("Replied to a tweet " + status.id + " of user " + status.tweet.user.screenName);
                 console.log("Reply text - " + statusText);
             });
         };
 
-        $scope.toggleComment = function(){
+        $scope.showComment = function(){
             $(function () {
-                $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > button[type="reset"]').on('click', function(event) {
+                $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > button[type="reset"]').mousedown(function(event) {
                     var $panel = $(this).closest('.panel-google-plus');
                     var $comment;
                     $comment = $panel.find('.panel-google-plus-comment');
@@ -90,6 +120,17 @@ angular.module('findyourhashtags.controllers', [])
                     if ($(this).val().length >= 1) {
                         $comment.find('button[type="submit"]').removeClass('disabled');
                     }
+                });
+            });
+        };
+
+        $scope.hideComment = function(){
+            $(function () {
+                $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > button[type="reset"]').focus(function(event) {
+                    var $panel = $(this).closest('.panel-google-plus');
+
+                    $panel.toggleClass('panel-google-plus-show-comment');
+
                 });
             });
         }
