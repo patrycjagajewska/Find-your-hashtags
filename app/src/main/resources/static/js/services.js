@@ -8,12 +8,6 @@ angular.module('findyourhashtags.services', [])
             return Restangular.all('tweets').getList();
         };
 
-        //service.getTweetId = function(tweetId){
-        //    Restangular.all('tweets').one(tweetId).get().then(function(resp){
-        //        console.log(resp);
-        //    });
-        //};
-
         service.searchForHashtag = function(hashtag) {
              return Restangular.all('tweets').all(hashtag).getList();
         };
@@ -34,6 +28,13 @@ angular.module('findyourhashtags.services', [])
 
         service.retweet = function(tweetId) {
             return Restangular.all('tweets').customPOST({}, 'retweet', {tweetId: tweetId}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+        };
+
+        service.reply = function(tweetId, screenName, statusText) {
+            return Restangular.all('tweets').one('comment').put({tweetId: tweetId, screenName: screenName, text: statusText}, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             });
