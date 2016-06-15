@@ -109,20 +109,11 @@ public class TwitterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/comment/{tweetId}", method = RequestMethod.GET, produces = "application/json")
-    public List<Status> getComments(){
-
-
-
-        return comments;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/comment/{tweetId}", method = RequestMethod.PUT, produces = "application/json")
-    public void comment(@PathVariable Long tweetId, String text){
+    @RequestMapping(value = "/comment", method = RequestMethod.PUT, produces = "application/json")
+    public void reply(Long tweetId, String screenName, String text){
 
         try {
-            StatusUpdate statusUpdate = new StatusUpdate(text);
+            StatusUpdate statusUpdate = new StatusUpdate("@" + screenName + " " + text);
             statusUpdate.inReplyToStatusId(tweetId);
             twitter.updateStatus(statusUpdate);
         } catch (TwitterException e) {

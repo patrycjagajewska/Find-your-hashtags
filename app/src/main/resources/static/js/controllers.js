@@ -42,21 +42,28 @@ angular.module('findyourhashtags.controllers', [])
         $scope.favourite = function(status) {
 
             TwitterService.favourite(status.id).then(function(resp){
-                console.log(status.id);
+                console.log("Tweet " + status.id + " marked as favourite");
             });
         };
 
         $scope.unfavourite = function(status) {
 
             TwitterService.unfavourite(status.id).then(function(resp){
-                console.log(status.id);
+                console.log("Tweet " + status.id + " unmarked favourite");
             });
         };
 
         $scope.retweet = function(status) {
 
             TwitterService.retweet(status.id).then(function(resp){
-                console.log(status.id);
+                console.log("Tweet " + status.id + " retweeted");
+            });
+        };
+
+        $scope.reply = function(status, statusText) {
+            TwitterService.reply(status.id, status.tweet.user.screenName, statusText).then(function(resp){
+                console.log("Replied to a tweet " + status.id + " of user " + status.tweet.user.screenName);
+                console.log("Reply text - " + statusText);
             });
         };
 
