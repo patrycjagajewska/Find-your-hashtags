@@ -18,8 +18,6 @@ public class TwitterController {
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
 
-    private MyAccessToken myAccessToken;
-
     List<TweetStatus> tweetStatuses = new ArrayList<>();
     List<Status> favourites = new ArrayList<>();
     List<Status> retweetedTweets = new ArrayList<>();
