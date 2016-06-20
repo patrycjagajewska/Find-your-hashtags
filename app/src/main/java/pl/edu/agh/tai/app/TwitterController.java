@@ -1,8 +1,10 @@
 package pl.edu.agh.tai.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 import twitter4j.*;
+import twitter4j.auth.OAuth2Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +15,13 @@ import java.util.Map;
 @RequestMapping("/tweets")
 public class TwitterController {
 
+    @Autowired
+    private OAuthToken authToken;
+
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
+
+    private MyAccessToken myAccessToken;
 
     List<TweetStatus> tweetStatuses = new ArrayList<>();
     List<Status> favourites = new ArrayList<>();
