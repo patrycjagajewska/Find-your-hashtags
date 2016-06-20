@@ -22,41 +22,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    public static void searchForHashtag(twitter4j.Twitter twitter, String hashtag, Integer howMany){
-        try {
-            if(!hashtag.startsWith("#")){
-                hashtag = "#" + hashtag;
-                System.out.println(hashtag);
-            }
-
-            QueryResult result;
-            Query query = new Query(hashtag);
-            int i = 0;
-            do{
-                result = twitter.search(query);
-                tweets = result.getTweets();
-
-                for(Status tweet : tweets){
-                    tweetsMap.put(tweet.getId(), tweet);
-                }
-
-                for(Map.Entry entry : tweetsMap.entrySet()) {
-                    i++;
-                    Status tweet = (Status) entry.getValue();
-                    Long tweetID = (Long) entry.getKey();
-                    System.out.println(i);
-                    System.out.println(tweetID);
-//                    System.out.println("@" + tweet.getUser().getName() + " ----- " + tweet.getText());
-
-                    if (howMany != null) {
-                        if(i == howMany) break;
-                    }
-                }
-                System.out.println("---------------end of while-------------");
-            } while(((query = result.nextQuery()) != null) && i != howMany);
-            System.exit(0);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
 }
