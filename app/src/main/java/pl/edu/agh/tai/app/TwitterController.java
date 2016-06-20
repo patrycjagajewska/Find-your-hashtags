@@ -3,9 +3,15 @@ package pl.edu.agh.tai.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 import twitter4j.*;
+import twitter4j.auth.AccessToken;
 import twitter4j.auth.OAuth2Token;
+import twitter4j.auth.RequestToken;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +19,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/tweets")
-public class TwitterController {
+public class TwitterController extends AbstractController{
+
+    @Autowired
+    private OAuthToken oauthToken;
+
+    @Autowired
+    private MyAccessToken accessToken;
 
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
@@ -23,6 +35,22 @@ public class TwitterController {
     List<Status> retweetedTweets = new ArrayList<>();
 
     Status status;
+
+    @Override
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        twitter.setOAuthConsumer(oauthToken.getConsumerKey(), oauthToken.getConsumerSecret());
+        String verifier = request.getParameter("oauth_verifier");
+        RequestToken requestToken = new RequestToken(accessToken.getToken(), accessToken.getTokensecret());
+        AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
+        twitter.setOAuthAccessToken(accessToken);
+        User user = twitter.verifyCredentials();
+        System.out.println("user: " + user.getName());
+        ModelAndView model = new ModelAndView("hello"); //nazwa pliku, do którego będzie przekierowanie - do zmiany
+        model.addObject("message", user.getName());
+
+        return model;
+    }
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
