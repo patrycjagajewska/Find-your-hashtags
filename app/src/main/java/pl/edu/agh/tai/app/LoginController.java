@@ -31,7 +31,7 @@ public class LoginController {
         twitter.setOAuthConsumer(oauthToken.getConsumerKey(), oauthToken.getConsumerSecret());
         RequestToken requestToken;
 
-        String callbackURL = "http://127.0.0.1:8080/#/callback";
+        String callbackURL = "http://127.0.0.1:8080/#/";
         try {
             requestToken = twitter.getOAuthRequestToken(callbackURL);
             String token = requestToken.getToken();
