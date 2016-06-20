@@ -25,6 +25,7 @@ public class LoginController {
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
 
+    @Autowired
     private MyAccessToken accessToken;
 
     public String printWelcome(HttpServletResponse response, HttpServletRequest request){
