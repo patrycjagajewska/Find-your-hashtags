@@ -37,9 +37,20 @@ angular.module('findyourhashtags.controllers', [])
             }
         });
 
+        //TwitterService.getScreenName().then(function(resp){
+        //    $scope.screenName = resp;
+        //});
+
         $scope.searchForHashtag = function(hashtag) {
             TwitterService.searchForHashtag(hashtag).then(function(resp){
                 $scope.statuses = resp;
+<<<<<<< HEAD
+=======
+                for(var i = 0; i < $scope.statuses.length; i++){
+                    $scope.statuses[i].favourited = $scope.statuses[i].tweet.favorited;
+                    $scope.statuses[i].retweeted = $scope.statuses[i].tweet.retweeted;
+                }
+>>>>>>> master
             });
         };
 
@@ -82,12 +93,21 @@ angular.module('findyourhashtags.controllers', [])
             console.log(status.retweeted);
         };
 
+<<<<<<< HEAD
         $scope.undoRetweet = function(status) {
 
             TwitterService.undoRetweet(status.id).then(function(resp){
                 console.log("Tweet " + status.id + " removed from retweeted");
             });
         };
+=======
+        //$scope.undoRetweet = function(status) {
+        //
+        //    TwitterService.undoRetweet(status.id).then(function(resp){
+        //        console.log("Tweet " + status.id + " removed from retweeted");
+        //    });
+        //};
+>>>>>>> master
 
         $scope.reply = function(status, statusText) {
 

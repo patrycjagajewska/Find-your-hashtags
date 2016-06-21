@@ -7,7 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.OAuth2Token;
 import twitter4j.auth.RequestToken;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +26,16 @@ public class TwitterController extends AbstractController{
     @Autowired
     private MyAccessToken accessToken;
 
+    @Autowired
+    private OAuthToken authToken;
+
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
 
+    private MyAccessToken myAccessToken;
+
     List<TweetStatus> tweetStatuses = new ArrayList<>();
+    List<TweetStatus> tweetStatusesHashtag = new ArrayList<>();
     List<Status> favourites = new ArrayList<>();
     List<Status> retweetedTweets = new ArrayList<>();
 
@@ -69,11 +74,21 @@ public class TwitterController extends AbstractController{
         return tweetStatuses;
     }
 
+//    @ResponseBody
+//    @RequestMapping(value = "/screenname", method = RequestMethod.GET, produces = "application/json")
+//    public String getScreenName(){
+//        String screenName = null;
+//        try {
+//            screenName = twitter.getScreenName();
+//        } catch (TwitterException e) {
+//            e.printStackTrace();
+//        }
+//        return screenName;
+//    }
+
     @ResponseBody
     @RequestMapping(value = "/{hashtag}", method = RequestMethod.GET, produces = "application/json")
-    public List<Status> searchForHashtag(@PathVariable String hashtag){
-
-        List<Status> tweets;
+    public List<TweetStatus> searchForHashtag(@PathVariable String hashtag){
 
         try {
             if(!hashtag.startsWith("#")){
@@ -85,14 +100,17 @@ public class TwitterController extends AbstractController{
 
             do{
                 result = twitter.search(query);
-                tweets = result.getTweets();
+                for (Status tweet : result.getTweets()) {
+                    TweetStatus ts = new TweetStatus(String.valueOf(tweet.getId()), tweet);
+                    tweetStatusesHashtag.add(ts);
+                }
             } while(((query = result.nextQuery()) != null));
         } catch (TwitterException e) {
             e.printStackTrace();
             throw new TweetException(e);
         }
 
-        return tweets;
+        return tweetStatusesHashtag;
     }
 
     @ResponseBody
@@ -137,25 +155,22 @@ public class TwitterController extends AbstractController{
         return retweetedTweets;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> undoRetweet(Long tweetId){
-
-        try {
-            List<Status> retweets = twitter.getRetweets(tweetId);
-            for (Status retweet : retweets) {
-                if(retweet.getRetweetedStatus().getUser().getScreenName().equals(twitter.getScreenName()))
-                    twitter.destroyStatus(retweet.getId());
-                    retweetedTweets.remove(retweet);
-            }
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        return retweetedTweets;
-    }
-
-
-
+//    @ResponseBody
+//    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
+//    public List<Status> undoRetweet(Long tweetId){
+//
+//        try {
+//            List<Status> retweets = twitter.getRetweets(tweetId);
+//            for (Status retweet : retweets) {
+//                if(retweet.getRetweetedStatus().getUser().getScreenName().equals(twitter.getScreenName()))
+//                    twitter.destroyStatus(retweet.getId());
+//                    retweetedTweets.remove(retweet);
+//            }
+//        } catch (TwitterException e) {
+//            e.printStackTrace();
+//        }
+//        return retweetedTweets;
+//    }
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.PUT, produces = "application/json")
