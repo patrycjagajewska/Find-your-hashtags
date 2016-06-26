@@ -15,13 +15,8 @@ import java.util.Map;
 @RequestMapping("/tweets")
 public class TwitterController {
 
-    @Autowired
-    private OAuthToken authToken;
-
     private TwitterFactory factory = new TwitterFactory();
     private Twitter twitter = factory.getInstance();
-
-    private MyAccessToken myAccessToken;
 
     List<TweetStatus> tweetStatuses = new ArrayList<>();
     List<TweetStatus> tweetStatusesHashtag = new ArrayList<>();
