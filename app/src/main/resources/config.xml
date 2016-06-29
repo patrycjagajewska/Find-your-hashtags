@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="pl.edu.agh.tai.app" />
+
+    <bean id="oauthToken" class="pl.edu.agh.tai.app.OAuthToken">
+        <property name="consumerKey" value="Xm1911YzS3pIQBfWHdLPwewzr"/>
+        <property name="consumerSecret" value="29Vls1LQaLMZ79H8QJm5MBsPJjRX5nIQ6ZiHi5RPOlSbRZN1FH"/>
+    </bean>
+
+    <bean id="accessToken" class="pl.edu.agh.tai.app.MyAccessToken"/>
+
+</beans>
