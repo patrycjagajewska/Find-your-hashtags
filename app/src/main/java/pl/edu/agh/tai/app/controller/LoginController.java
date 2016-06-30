@@ -10,6 +10,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class LoginController {
     private TwitterFactory twitterFactory;
 
     @Autowired
-    private CustomAccessToken accessToken;
+    private CustomAccessToken customAccessToken;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
@@ -35,8 +36,8 @@ public class LoginController {
             requestToken = twitter.getOAuthRequestToken(callbackURL);
             String token = requestToken.getToken();
             String tokenSecret = requestToken.getTokenSecret();
-            accessToken.setTokenSecret(tokenSecret);
-            accessToken.setToken(token);
+            customAccessToken.setTokenSecret(tokenSecret);
+            customAccessToken.setToken(token);
             String authUrl = requestToken.getAuthorizationURL();
             model.addAttribute("authUrl", authUrl);
         } catch (TwitterException e) {
@@ -51,11 +52,11 @@ public class LoginController {
         Twitter twitter = twitterFactory.getInstance();
 
         String verifier = request.getParameter("oauth_verifier");
-        RequestToken requestToken = new RequestToken(accessToken.getToken(), accessToken.getTokenSecret());
-        twitter4j.auth.AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
+        RequestToken requestToken = new RequestToken(customAccessToken.getToken(), customAccessToken.getTokenSecret());
+        AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
         twitter.setOAuthAccessToken(accessToken);
 
-        this.accessToken.setTwitterAccessToken(accessToken);
+        this.customAccessToken.setTwitterAccessToken(accessToken);
 
         User user = twitter.verifyCredentials();
         System.out.println(user.getName());

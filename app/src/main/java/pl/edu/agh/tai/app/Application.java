@@ -42,8 +42,8 @@ public class Application {
         Configuration configuration = new ConfigurationBuilder()
                 .setOAuthConsumerKey(oAuthToken.getConsumerKey())
                 .setOAuthConsumerSecret(oAuthToken.getConsumerSecret())
-                .setOAuthAccessToken(null)
-                .setOAuthAccessTokenSecret(null)
+                .setOAuthAccessToken(customAccessToken.getToken())
+                .setOAuthAccessTokenSecret(customAccessToken.getTokenSecret())
                 .build();
 
         return new TwitterFactory(configuration);

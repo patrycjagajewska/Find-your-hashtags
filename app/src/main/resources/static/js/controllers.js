@@ -90,12 +90,12 @@ angular.module('findyourhashtags.controllers', [])
             console.log(status.retweeted);
         };
 
-        //$scope.undoRetweet = function(status) {
-        //
-        //    TwitterService.undoRetweet(status.id).then(function(resp){
-        //        console.log("Tweet " + status.id + " removed from retweeted");
-        //    });
-        //};
+        $scope.undoRetweet = function(status) {
+
+            TwitterService.undoRetweet(status.id).then(function(resp){
+                console.log("Tweet " + status.id + " removed from retweeted");
+            });
+        };
 
         $scope.reply = function(status, statusText) {
 

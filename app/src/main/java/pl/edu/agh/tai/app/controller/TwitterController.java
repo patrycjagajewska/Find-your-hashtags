@@ -46,19 +46,19 @@ public class TwitterController {
         return tweetStatuses;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/screenname", method = RequestMethod.GET, produces = "application/json")
-    public String getScreenName() {
-        Twitter twitter = getTwitterInstance();
-
-        String screenName = null;
-        try {
-            screenName = twitter.getScreenName();
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        return screenName;
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "/screenname", method = RequestMethod.GET, produces = "application/json")
+//    public String getScreenName() {
+//        Twitter twitter = getTwitterInstance();
+//
+//        String screenName = null;
+//        try {
+//            screenName = twitter.getScreenName();
+//        } catch (TwitterException e) {
+//            e.printStackTrace();
+//        }
+//        return screenName;
+//    }
 
     @ResponseBody
     @RequestMapping(value = "/{hashtag}", method = RequestMethod.GET, produces = "application/json")
@@ -133,23 +133,23 @@ public class TwitterController {
         return retweetedTweets;
     }
 
-//    @ResponseBody
-//    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
-//    public List<Status> undoRetweet(Long tweetId){
-//          Twitter twitter = getTwitterInstance();
-//
-//        try {
-//            List<Status> retweets = twitter.getRetweets(tweetId);
-//            for (Status retweet : retweets) {
-//                if(retweet.getRetweetedStatus().getUser().getScreenName().equals(twitter.getScreenName()))
-//                    twitter.destroyStatus(retweet.getId());
-//                    retweetedTweets.remove(retweet);
-//            }
-//        } catch (TwitterException e) {
-//            e.printStackTrace();
-//        }
-//        return retweetedTweets;
-//    }
+    @ResponseBody
+    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
+    public List<Status> undoRetweet(Long tweetId){
+          Twitter twitter = getTwitterInstance();
+
+        try {
+            List<Status> retweets = twitter.getRetweets(tweetId);
+            for (Status retweet : retweets) {
+                if(retweet.getRetweetedStatus().getUser().getScreenName().equals(twitter.getScreenName()))
+                    twitter.destroyStatus(retweet.getId());
+                    retweetedTweets.remove(retweet);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return retweetedTweets;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.PUT, produces = "application/json")
