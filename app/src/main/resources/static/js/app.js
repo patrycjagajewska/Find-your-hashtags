@@ -12,15 +12,7 @@ angular.module('findyourhashtags', [
 
     .constant("serverUrl", "localhost:8080")
 
-    .config(function ($stateProvider, $urlRouterProvider) {
-
-        $urlRouterProvider.when('', '/login');
-
-        $urlRouterProvider.otherwise(function ($injector, $location) {
-            $injector.invoke(['$state', function ($state) {
-                $state.go('404');
-            }]);
-        });
+    .config(function ($stateProvider) {
 
         $stateProvider
             .state('404', {
@@ -32,13 +24,4 @@ angular.module('findyourhashtags', [
                 controller: 'TwitterController',
                 service: 'TwitterService'
             })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'partials/views/login.html'
-            });
-
-    })
-
-    .run(function ($state) {
-        $state.go('login');
     });
