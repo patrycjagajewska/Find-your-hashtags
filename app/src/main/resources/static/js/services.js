@@ -8,6 +8,10 @@ angular.module('findyourhashtags.services', [])
             return Restangular.all('tweets').getList();
         };
 
+        service.getScreenName = function() {
+           return Restangular.all('tweets').one('screenname').get();
+        };
+
         service.searchForHashtag = function(hashtag) {
              return Restangular.all('tweets').all(hashtag).getList();
         };
@@ -33,12 +37,12 @@ angular.module('findyourhashtags.services', [])
             });
         };
 
-        service.undoRetweet= function(tweetId) {
-            return Restangular.all('tweets').customPOST({}, 'undoretweet', {tweetId: tweetId}, {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            });
-        };
+        //service.undoRetweet= function(tweetId) {
+        //    return Restangular.all('tweets').customPOST({}, 'undoretweet', {tweetId: tweetId}, {
+        //        'Accept': 'application/json',
+        //        'Content-Type': 'application/json'
+        //    });
+        //};
 
         service.reply = function(tweetId, screenName, statusText) {
             return Restangular.all('tweets').one('comment').put({tweetId: tweetId, screenName: screenName, text: statusText}, {

@@ -1,34 +1,25 @@
-package pl.edu.agh.tai.app;
+package pl.edu.agh.tai.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import pl.edu.agh.tai.app.TweetException;
+import pl.edu.agh.tai.app.TweetStatus;
+import pl.edu.agh.tai.app.token.CustomAccessToken;
 import twitter4j.*;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.OAuth2Token;
-import twitter4j.auth.RequestToken;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/tweets")
-public class TwitterController extends AbstractController{
+public class TwitterController {
 
     @Autowired
-    private OAuthToken oauthToken;
+    private TwitterFactory twitterFactory;
 
     @Autowired
-    private MyAccessToken accessToken;
-
-    private TwitterFactory factory = new TwitterFactory();
-    private Twitter twitter = factory.getInstance();
+    private CustomAccessToken customAccessToken;
 
     List<TweetStatus> tweetStatuses = new ArrayList<>();
     List<TweetStatus> tweetStatusesHashtag = new ArrayList<>();
@@ -37,25 +28,10 @@ public class TwitterController extends AbstractController{
 
     Status status;
 
-    @Override
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        twitter.setOAuthConsumer(oauthToken.getConsumerKey(), oauthToken.getConsumerSecret());
-        String verifier = request.getParameter("oauth_verifier");
-        RequestToken requestToken = new RequestToken(accessToken.getToken(), accessToken.getTokensecret());
-        AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
-        twitter.setOAuthAccessToken(accessToken);
-        User user = twitter.verifyCredentials();
-        System.out.println("user: " + user.getName());
-        ModelAndView model = new ModelAndView("hello"); //nazwa pliku, do którego będzie przekierowanie - do zmiany
-        model.addObject("message", user.getName());
-
-        return model;
-    }
-
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<TweetStatus> getAllTweets() {
+        Twitter twitter = getTwitterInstance();
 
         try {
             List<Status> tweets = twitter.getHomeTimeline();
@@ -70,37 +46,40 @@ public class TwitterController extends AbstractController{
         return tweetStatuses;
     }
 
-    //    @ResponseBody
-//    @RequestMapping(value = "/screenname", method = RequestMethod.GET, produces = "application/json")
-//    public String getScreenName(){
-//        String screenName = null;
-//        try {
-//            screenName = twitter.getScreenName();
-//        } catch (TwitterException e) {
-//            e.printStackTrace();
-//        }
-//        return screenName;
-//    }
+    @ResponseBody
+    @RequestMapping(value = "/screenname", method = RequestMethod.GET, produces = "application/json")
+    public String getScreenName() {
+        Twitter twitter = getTwitterInstance();
+
+        String screenName = null;
+        try {
+            screenName = twitter.getScreenName();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return screenName;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/{hashtag}", method = RequestMethod.GET, produces = "application/json")
-    public List<TweetStatus> searchForHashtag(@PathVariable String hashtag){
+    public List<TweetStatus> searchForHashtag(@PathVariable String hashtag) {
+        Twitter twitter = getTwitterInstance();
 
         try {
-            if(!hashtag.startsWith("#")){
+            if (!hashtag.startsWith("#")) {
                 hashtag = "#" + hashtag;
             }
 
             QueryResult result;
             Query query = new Query(hashtag);
 
-            do{
+            do {
                 result = twitter.search(query);
                 for (Status tweet : result.getTweets()) {
                     TweetStatus ts = new TweetStatus(String.valueOf(tweet.getId()), tweet);
                     tweetStatusesHashtag.add(ts);
                 }
-            } while(((query = result.nextQuery()) != null));
+            } while (((query = result.nextQuery()) != null));
         } catch (TwitterException e) {
             e.printStackTrace();
             throw new TweetException(e);
@@ -111,7 +90,8 @@ public class TwitterController extends AbstractController{
 
     @ResponseBody
     @RequestMapping(value = "/favourite", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> favourite(Long tweetId){
+    public List<Status> favourite(Long tweetId) {
+        Twitter twitter = getTwitterInstance();
 
         try {
             status = twitter.createFavorite(tweetId);
@@ -125,7 +105,8 @@ public class TwitterController extends AbstractController{
 
     @ResponseBody
     @RequestMapping(value = "/unfavourite", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> unfavourite(Long tweetId){
+    public List<Status> unfavourite(Long tweetId) {
+        Twitter twitter = getTwitterInstance();
 
         try {
             status = twitter.destroyFavorite(tweetId);
@@ -139,7 +120,8 @@ public class TwitterController extends AbstractController{
 
     @ResponseBody
     @RequestMapping(value = "/retweet", method = RequestMethod.POST, produces = "application/json")
-    public List<Status> retweet(Long tweetId){
+    public List<Status> retweet(Long tweetId) {
+        Twitter twitter = getTwitterInstance();
 
         try {
             status = twitter.retweetStatus(tweetId);
@@ -154,6 +136,7 @@ public class TwitterController extends AbstractController{
 //    @ResponseBody
 //    @RequestMapping(value = "/undoretweet", method = RequestMethod.POST, produces = "application/json")
 //    public List<Status> undoRetweet(Long tweetId){
+//          Twitter twitter = getTwitterInstance();
 //
 //        try {
 //            List<Status> retweets = twitter.getRetweets(tweetId);
@@ -168,10 +151,10 @@ public class TwitterController extends AbstractController{
 //        return retweetedTweets;
 //    }
 
-
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.PUT, produces = "application/json")
-    public void reply(Long tweetId, String screenName, String text){
+    public void reply(Long tweetId, String screenName, String text) {
+        Twitter twitter = getTwitterInstance();
 
         try {
             StatusUpdate statusUpdate = new StatusUpdate("@" + screenName + " " + text);
@@ -180,5 +163,9 @@ public class TwitterController extends AbstractController{
         } catch (TwitterException e) {
             e.printStackTrace();
         }
+    }
+
+    private Twitter getTwitterInstance() {
+        return twitterFactory.getInstance(customAccessToken.getTwitterAccessToken());
     }
 }
